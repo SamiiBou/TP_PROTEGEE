@@ -1,0 +1,315 @@
+@prefix : <http://www.semanticweb.org/sami-/ontologies/2023/3/untitled-ontology-12/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@base <http://www.semanticweb.org/sami-/ontologies/2023/3/untitled-ontology-12/> .
+
+<http://www.semanticweb.org/sami-/ontologies/2023/3/untitled-ontology-12> rdf:type owl:Ontology .
+
+#################################################################
+#    Object Properties
+#################################################################
+
+###  http://www.semanticweb.org/sami-/ontologies/2023/3/untitled-ontology-12#hasChild
+:hasChild rdf:type owl:ObjectProperty .
+
+
+###  http://www.semanticweb.org/sami-/ontologies/2023/3/untitled-ontology-12#isMarriedWith
+:isMarriedWith rdf:type owl:ObjectProperty ,
+                        owl:FunctionalProperty ,
+                        owl:SymmetricProperty .
+
+
+#################################################################
+#    Classes
+#################################################################
+
+###  http://www.semanticweb.org/sami-/ontologies/2023/3/untitled-ontology-12#Father
+:Father rdf:type owl:Class ;
+        owl:equivalentClass [ owl:intersectionOf ( :Man
+                                                   [ rdf:type owl:Restriction ;
+                                                     owl:onProperty :hasChild ;
+                                                     owl:someValuesFrom :Person
+                                                   ]
+                                                 ) ;
+                              rdf:type owl:Class
+                            ] .
+
+
+###  http://www.semanticweb.org/sami-/ontologies/2023/3/untitled-ontology-12#Female
+:Female rdf:type owl:Class .
+
+
+###  http://www.semanticweb.org/sami-/ontologies/2023/3/untitled-ontology-12#GrandFather
+:GrandFather rdf:type owl:Class ;
+             owl:equivalentClass [ owl:intersectionOf ( :Father
+                                                        [ rdf:type owl:Restriction ;
+                                                          owl:onProperty :hasChild ;
+                                                          owl:someValuesFrom :Parent
+                                                        ]
+                                                      ) ;
+                                   rdf:type owl:Class
+                                 ] .
+
+
+###  http://www.semanticweb.org/sami-/ontologies/2023/3/untitled-ontology-12#GrandMother
+:GrandMother rdf:type owl:Class ;
+             owl:equivalentClass [ owl:intersectionOf ( :Mother
+                                                        [ rdf:type owl:Restriction ;
+                                                          owl:onProperty :hasChild ;
+                                                          owl:someValuesFrom :Parent
+                                                        ]
+                                                      ) ;
+                                   rdf:type owl:Class
+                                 ] .
+
+
+###  http://www.semanticweb.org/sami-/ontologies/2023/3/untitled-ontology-12#Husband
+:Husband rdf:type owl:Class ;
+         owl:equivalentClass [ owl:intersectionOf ( :Man
+                                                    [ rdf:type owl:Restriction ;
+                                                      owl:onProperty :isMarriedWith ;
+                                                      owl:someValuesFrom :Woman
+                                                    ]
+                                                  ) ;
+                               rdf:type owl:Class
+                             ] .
+
+
+###  http://www.semanticweb.org/sami-/ontologies/2023/3/untitled-ontology-12#Man
+:Man rdf:type owl:Class ;
+     owl:equivalentClass [ owl:intersectionOf ( :Person
+                                                [ rdf:type owl:Class ;
+                                                  owl:complementOf :Female
+                                                ]
+                                              ) ;
+                           rdf:type owl:Class
+                         ] .
+
+
+###  http://www.semanticweb.org/sami-/ontologies/2023/3/untitled-ontology-12#Married
+:Married rdf:type owl:Class ;
+         owl:equivalentClass [ owl:intersectionOf ( :Person
+                                                    [ rdf:type owl:Restriction ;
+                                                      owl:onProperty :isMarriedWith ;
+                                                      owl:someValuesFrom :Person
+                                                    ]
+                                                  ) ;
+                               rdf:type owl:Class
+                             ] .
+
+
+###  http://www.semanticweb.org/sami-/ontologies/2023/3/untitled-ontology-12#Mother
+:Mother rdf:type owl:Class ;
+        owl:equivalentClass [ owl:intersectionOf ( :Woman
+                                                   [ rdf:type owl:Restriction ;
+                                                     owl:onProperty :hasChild ;
+                                                     owl:someValuesFrom :Person
+                                                   ]
+                                                 ) ;
+                              rdf:type owl:Class
+                            ] .
+
+
+###  http://www.semanticweb.org/sami-/ontologies/2023/3/untitled-ontology-12#MotherAndHasChildSomeMan
+:MotherAndHasChildSomeMan rdf:type owl:Class ;
+                          owl:equivalentClass [ owl:intersectionOf ( :Mother
+                                                                     [ rdf:type owl:Restriction ;
+                                                                       owl:onProperty :hasChild ;
+                                                                       owl:someValuesFrom :Man
+                                                                     ]
+                                                                   ) ;
+                                                rdf:type owl:Class
+                                              ] .
+
+
+###  http://www.semanticweb.org/sami-/ontologies/2023/3/untitled-ontology-12#MotherWithManyChildren
+:MotherWithManyChildren rdf:type owl:Class ;
+                        owl:equivalentClass [ owl:intersectionOf ( :Mother
+                                                                   [ rdf:type owl:Restriction ;
+                                                                     owl:onProperty :hasChild ;
+                                                                     owl:minCardinality "2"^^xsd:nonNegativeInteger
+                                                                   ]
+                                                                 ) ;
+                                              rdf:type owl:Class
+                                            ] .
+
+
+###  http://www.semanticweb.org/sami-/ontologies/2023/3/untitled-ontology-12#MotherWithoutDaughter
+:MotherWithoutDaughter rdf:type owl:Class ;
+                       owl:equivalentClass [ owl:intersectionOf ( :Mother
+                                                                  [ rdf:type owl:Restriction ;
+                                                                    owl:onProperty :hasChild ;
+                                                                    owl:allValuesFrom [ rdf:type owl:Class ;
+                                                                                        owl:complementOf :Woman
+                                                                                      ]
+                                                                  ]
+                                                                ) ;
+                                             rdf:type owl:Class
+                                           ] .
+
+
+###  http://www.semanticweb.org/sami-/ontologies/2023/3/untitled-ontology-12#Parent
+:Parent rdf:type owl:Class ;
+        owl:equivalentClass [ rdf:type owl:Class ;
+                              owl:unionOf ( :Father
+                                            :Mother
+                                          )
+                            ] .
+
+
+###  http://www.semanticweb.org/sami-/ontologies/2023/3/untitled-ontology-12#Person
+:Person rdf:type owl:Class .
+
+
+###  http://www.semanticweb.org/sami-/ontologies/2023/3/untitled-ontology-12#Unmarried
+:Unmarried rdf:type owl:Class ;
+           owl:equivalentClass [ owl:intersectionOf ( :Person
+                                                      [ rdf:type owl:Class ;
+                                                        owl:complementOf [ rdf:type owl:Restriction ;
+                                                                           owl:onProperty :isMarriedWith ;
+                                                                           owl:someValuesFrom :Person
+                                                                         ]
+                                                      ]
+                                                    ) ;
+                                 rdf:type owl:Class
+                               ] .
+
+
+###  http://www.semanticweb.org/sami-/ontologies/2023/3/untitled-ontology-12#Wife
+:Wife rdf:type owl:Class ;
+      owl:equivalentClass [ owl:intersectionOf ( :Woman
+                                                 [ rdf:type owl:Restriction ;
+                                                   owl:onProperty :isMarriedWith ;
+                                                   owl:someValuesFrom :Man
+                                                 ]
+                                               ) ;
+                            rdf:type owl:Class
+                          ] .
+
+
+###  http://www.semanticweb.org/sami-/ontologies/2023/3/untitled-ontology-12#WifeAndHasChildSomeHusband
+:WifeAndHasChildSomeHusband rdf:type owl:Class ;
+                            owl:equivalentClass [ owl:intersectionOf ( :Wife
+                                                                       [ rdf:type owl:Restriction ;
+                                                                         owl:onProperty :hasChild ;
+                                                                         owl:someValuesFrom :Husband
+                                                                       ]
+                                                                     ) ;
+                                                  rdf:type owl:Class
+                                                ] .
+
+
+###  http://www.semanticweb.org/sami-/ontologies/2023/3/untitled-ontology-12#Woman
+:Woman rdf:type owl:Class ;
+       owl:equivalentClass [ owl:intersectionOf ( :Female
+                                                  :Person
+                                                ) ;
+                             rdf:type owl:Class
+                           ] .
+
+
+#################################################################
+#    Individuals
+#################################################################
+
+###  http://www.semanticweb.org/sami-/ontologies/2023/3/untitled-ontology-12#alex
+:alex rdf:type owl:NamedIndividual ,
+               :Man ;
+      :hasChild :daniel ;
+      :isMarriedWith :samira .
+
+
+###  http://www.semanticweb.org/sami-/ontologies/2023/3/untitled-ontology-12#betty
+:betty rdf:type owl:NamedIndividual ,
+                :Woman .
+
+
+###  http://www.semanticweb.org/sami-/ontologies/2023/3/untitled-ontology-12#charles
+:charles rdf:type owl:NamedIndividual ,
+                  :Man ;
+         :hasChild :samira ;
+         :isMarriedWith :nathalie .
+
+
+###  http://www.semanticweb.org/sami-/ontologies/2023/3/untitled-ontology-12#daniel
+:daniel rdf:type owl:NamedIndividual ,
+                 :Man .
+
+
+###  http://www.semanticweb.org/sami-/ontologies/2023/3/untitled-ontology-12#dino
+:dino rdf:type owl:NamedIndividual ,
+               :Man .
+
+
+###  http://www.semanticweb.org/sami-/ontologies/2023/3/untitled-ontology-12#dora
+:dora rdf:type owl:NamedIndividual ,
+               :Woman ;
+      :hasChild :alex ,
+                :ines ,
+                :kathy .
+
+
+###  http://www.semanticweb.org/sami-/ontologies/2023/3/untitled-ontology-12#ines
+:ines rdf:type owl:NamedIndividual ,
+               :Woman .
+
+
+###  http://www.semanticweb.org/sami-/ontologies/2023/3/untitled-ontology-12#kathy
+:kathy rdf:type owl:NamedIndividual ,
+                :Woman .
+
+
+###  http://www.semanticweb.org/sami-/ontologies/2023/3/untitled-ontology-12#lucas
+:lucas rdf:type owl:NamedIndividual ,
+                :Man .
+
+
+###  http://www.semanticweb.org/sami-/ontologies/2023/3/untitled-ontology-12#nathalie
+:nathalie rdf:type owl:NamedIndividual ,
+                   :Woman .
+
+
+###  http://www.semanticweb.org/sami-/ontologies/2023/3/untitled-ontology-12#olga
+:olga rdf:type owl:NamedIndividual ,
+               :Woman ;
+      :hasChild :lucas .
+
+
+###  http://www.semanticweb.org/sami-/ontologies/2023/3/untitled-ontology-12#paul
+:paul rdf:type owl:NamedIndividual ,
+               :Man .
+
+
+###  http://www.semanticweb.org/sami-/ontologies/2023/3/untitled-ontology-12#samira
+:samira rdf:type owl:NamedIndividual ,
+                 :Woman ;
+        :hasChild :daniel ;
+        :isMarriedWith :alex .
+
+
+#################################################################
+#    General axioms
+#################################################################
+
+[ rdf:type owl:AllDifferent ;
+  owl:distinctMembers ( :alex
+                        :betty
+                        :charles
+                        :daniel
+                        :dino
+                        :dora
+                        :ines
+                        :kathy
+                        :lucas
+                        :nathalie
+                        :olga
+                        :paul
+                        :samira
+                      )
+] .
+
+
+###  Generated by the OWL API (version 4.5.25.2023-02-15T19:15:49Z) https://github.com/owlcs/owlapi

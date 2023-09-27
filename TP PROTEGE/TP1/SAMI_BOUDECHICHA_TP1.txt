@@ -1,0 +1,51 @@
+---SAMI BOUDECHICHA M2 I2D---
+
+Partie B : ABOX:
+
+Lorsque on essaye d'ajouter alex isMarriedWith olga on a on ne peut pas synchroniser reasoner et explain nous affiche : 
+Explanation 1:
+	DifferentIndividuals: alex, bettyn charles ...(in ALL other justifications)
+	Functional: isMarriedWith (in ALL other justifications)
+	alex isMarriedWith olga (in ALL other justifications)
+	alex isMarriedWith samira (in NO other justifications)
+
+La premiére Explication démontre un conflit entre "alex isMarriedWith olga" et "alex isMarriedWith samira" car la propriété "isMarriedWith" est fonctionnelle et ne permet pas à une personne d'être mariée à plus d'une personne à la fois.
+
+Explanation 2:
+	samira isMarriedWith alex (in NO other justifications)
+	DifferentIndividuals: alex, bettyn charles ...(in ALL other justifications)
+	Functional: isMarriedWith (in ALL other justifications)
+	Symetric: isMarriedWith (in NO other justifications)
+	alex isMarriedWith olga (in ALL other justifications)
+
+La deuxiéme aussi montre un conflit entre "alex isMarriedWith olga" et "alex isMarriedWith samira" car la propriété "isMarriedWith" est 
+fonctionnelle et symétrique et si "alex isMarriedWith olga" donc "olga isMarriedWith alex" qui est deja mariée a samira chose qui n'est 
+donc pas possible vu que isMarriedWith est fonctionnelle.
+
+PARTIE C Requêtes et questions :
+(a) Instances : 
+	
+	Mother : dora - olga - samira
+	GrandMother : dora
+	Father : alex - charles
+	GrandFather : charles
+	MotherWithManyChildren : dora
+	Wife : nathalie - samira
+	Married : alex - charles - nathalie - samira
+	Married with a son : alex - samira
+	Woman with a son : dora - olga - samira
+
+(b) Satisfiabilité : 
+	
+	un Husband qui est Unmarried n'existe pas, pour le vérifier j'ai éxécuter la requéte "Husband and Unmarried" dans le DL query
+	et j'ai eu aucun instance en résultat.
+
+(c) Subsumption :
+	
+	« Wife and hasChild some Husband » n'est pas une sous-classe de « Mother and hasChild some Man » et pour vérifier cela j'ai créer 
+	deux classes temporaires "MotherAndHasChildSomeMan" equivalente a « Mother and hasChild some Man » et une classe
+	"WifeAndHasChildSomeHusband" equivalente a "Wife and hasChild some Husband" et dans l'arborescence des classes aucune des deux 	n'apparait comme sous-classe de l'autre.
+
+(d) Question :
+
+	Les instances de motherWithoutDaughter n'existent pas car toutes les méres existantes ont une fille au moins.

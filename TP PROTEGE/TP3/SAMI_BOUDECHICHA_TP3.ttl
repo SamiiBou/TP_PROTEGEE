@@ -1,0 +1,551 @@
+@prefix : <http://www.semanticweb.org/sami-/ontologies/2023/4/untitled-ontology-19/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@base <http://www.semanticweb.org/sami-/ontologies/2023/4/untitled-ontology-19/> .
+
+<http://www.semanticweb.org/sami-/ontologies/2023/4/untitled-ontology-19> rdf:type owl:Ontology .
+
+#################################################################
+#    Object Properties
+#################################################################
+
+###  http://www.semanticweb.org/sami-/ontologies/2023/4/untitled-ontology-19#dirige
+:dirige rdf:type owl:ObjectProperty ;
+        rdfs:subPropertyOf owl:topObjectProperty ;
+        rdfs:domain :Employé ;
+        rdfs:range :Entreprise .
+
+
+###  http://www.semanticweb.org/sami-/ontologies/2023/4/untitled-ontology-19/aDiplome
+:aDiplome rdf:type owl:ObjectProperty ;
+          rdfs:domain :Personne ;
+          rdfs:range :Diplome .
+
+
+###  http://www.semanticweb.org/sami-/ontologies/2023/4/untitled-ontology-19/aSecteurActivité
+:aSecteurActivité rdf:type owl:ObjectProperty ;
+                  rdfs:domain :Entreprise ;
+                  rdfs:range :SecteurActivité .
+
+
+###  http://www.semanticweb.org/sami-/ontologies/2023/4/untitled-ontology-19/dirigéePar
+:dirigéePar rdf:type owl:ObjectProperty ;
+            rdfs:domain :Entreprise ;
+            rdfs:range :Employé .
+
+
+###  http://www.semanticweb.org/sami-/ontologies/2023/4/untitled-ontology-19/estSituéeDans
+:estSituéeDans rdf:type owl:ObjectProperty ;
+               rdfs:domain :Entreprise ;
+               rdfs:range :Localité .
+
+
+###  http://www.semanticweb.org/sami-/ontologies/2023/4/untitled-ontology-19/travailleDans
+:travailleDans rdf:type owl:ObjectProperty ;
+               rdfs:domain :Employé ;
+               rdfs:range :Entreprise .
+
+
+#################################################################
+#    Data properties
+#################################################################
+
+###  http://www.semanticweb.org/sami-/ontologies/2023/4/untitled-ontology-19/aSalaire
+:aSalaire rdf:type owl:DatatypeProperty ;
+          rdfs:domain :Employé ;
+          rdfs:range xsd:float .
+
+
+###  http://www.semanticweb.org/sami-/ontologies/2023/4/untitled-ontology-19/age
+:age rdf:type owl:DatatypeProperty ;
+     rdfs:domain :Personne ;
+     rdfs:range xsd:integer .
+
+
+#################################################################
+#    Classes
+#################################################################
+
+###  http://www.semanticweb.org/sami-/ontologies/2023/4/untitled-ontology-19/Alimentaire
+:Alimentaire rdf:type owl:Class ;
+             rdfs:subClassOf :SecteurActivité .
+
+
+###  http://www.semanticweb.org/sami-/ontologies/2023/4/untitled-ontology-19/Cadre
+:Cadre rdf:type owl:Class ;
+       rdfs:subClassOf :Employé ,
+                       [ rdf:type owl:Restriction ;
+                         owl:onProperty :aDiplome ;
+                         owl:someValuesFrom :DiplômeNiveauSupérieur
+                       ] ,
+                       [ rdf:type owl:Restriction ;
+                         owl:onProperty :aSalaire ;
+                         owl:someValuesFrom [ rdf:type rdfs:Datatype ;
+                                              owl:onDatatype xsd:float ;
+                                              owl:withRestrictions ( [ xsd:minInclusive "3500.0"^^xsd:float
+                                                                     ]
+                                                                   )
+                                            ]
+                       ] .
+
+
+###  http://www.semanticweb.org/sami-/ontologies/2023/4/untitled-ontology-19/Comptable
+:Comptable rdf:type owl:Class ;
+           rdfs:subClassOf :Employé .
+
+
+###  http://www.semanticweb.org/sami-/ontologies/2023/4/untitled-ontology-19/Diplome
+:Diplome rdf:type owl:Class .
+
+
+###  http://www.semanticweb.org/sami-/ontologies/2023/4/untitled-ontology-19/DiplômeIngénieur
+:DiplômeIngénieur rdf:type owl:Class ;
+                  rdfs:subClassOf :DiplômeNiveauSupérieur .
+
+
+###  http://www.semanticweb.org/sami-/ontologies/2023/4/untitled-ontology-19/DiplômeNiveauInférieur
+:DiplômeNiveauInférieur rdf:type owl:Class ;
+                        rdfs:subClassOf :Diplome .
+
+
+###  http://www.semanticweb.org/sami-/ontologies/2023/4/untitled-ontology-19/DiplômeNiveauSupérieur
+:DiplômeNiveauSupérieur rdf:type owl:Class ;
+                        rdfs:subClassOf :Diplome .
+
+
+###  http://www.semanticweb.org/sami-/ontologies/2023/4/untitled-ontology-19/DirecteurGénéral
+:DirecteurGénéral rdf:type owl:Class ;
+                  rdfs:subClassOf :Cadre .
+
+
+###  http://www.semanticweb.org/sami-/ontologies/2023/4/untitled-ontology-19/DirecteurRessourcesHumaines
+:DirecteurRessourcesHumaines rdf:type owl:Class ;
+                             rdfs:subClassOf :Employé .
+
+
+###  http://www.semanticweb.org/sami-/ontologies/2023/4/untitled-ontology-19/Employé
+:Employé rdf:type owl:Class ;
+         rdfs:subClassOf :Personne ,
+                         [ rdf:type owl:Restriction ;
+                           owl:onProperty :dirigéePar ;
+                           owl:someValuesFrom :DirecteurGénéral
+                         ] ,
+                         [ rdf:type owl:Restriction ;
+                           owl:onProperty :travailleDans ;
+                           owl:someValuesFrom :Entreprise
+                         ] ,
+                         [ rdf:type owl:Restriction ;
+                           owl:onProperty :aSalaire ;
+                           owl:someValuesFrom xsd:float
+                         ] .
+
+
+###  http://www.semanticweb.org/sami-/ontologies/2023/4/untitled-ontology-19/Entreprise
+:Entreprise rdf:type owl:Class ;
+            rdfs:subClassOf [ rdf:type owl:Restriction ;
+                              owl:onProperty :dirigéePar ;
+                              owl:someValuesFrom :DirecteurGénéral
+                            ] ,
+                            [ rdf:type owl:Restriction ;
+                              owl:onProperty :estSituéeDans ;
+                              owl:someValuesFrom :Localité
+                            ] .
+
+
+###  http://www.semanticweb.org/sami-/ontologies/2023/4/untitled-ontology-19/EntrepriseAlimentaire
+:EntrepriseAlimentaire rdf:type owl:Class ;
+                       owl:equivalentClass [ owl:intersectionOf ( :Entreprise
+                                                                  [ rdf:type owl:Restriction ;
+                                                                    owl:onProperty :aSecteurActivité ;
+                                                                    owl:someValuesFrom :Alimentaire
+                                                                  ]
+                                                                ) ;
+                                             rdf:type owl:Class
+                                           ] ;
+                       rdfs:subClassOf :Entreprise .
+
+
+###  http://www.semanticweb.org/sami-/ontologies/2023/4/untitled-ontology-19/EntrepriseInformatique
+:EntrepriseInformatique rdf:type owl:Class ;
+                        owl:equivalentClass [ owl:intersectionOf ( :Entreprise
+                                                                   [ rdf:type owl:Restriction ;
+                                                                     owl:onProperty :aSecteurActivité ;
+                                                                     owl:someValuesFrom :Informatique
+                                                                   ]
+                                                                 ) ;
+                                              rdf:type owl:Class
+                                            ] ;
+                        rdfs:subClassOf :Entreprise .
+
+
+###  http://www.semanticweb.org/sami-/ontologies/2023/4/untitled-ontology-19/EntrepriseMeuble
+:EntrepriseMeuble rdf:type owl:Class ;
+                  owl:equivalentClass [ owl:intersectionOf ( :Entreprise
+                                                             [ rdf:type owl:Restriction ;
+                                                               owl:onProperty :aSecteurActivité ;
+                                                               owl:someValuesFrom :Meubles
+                                                             ]
+                                                           ) ;
+                                        rdf:type owl:Class
+                                      ] ;
+                  rdfs:subClassOf :Entreprise .
+
+
+###  http://www.semanticweb.org/sami-/ontologies/2023/4/untitled-ontology-19/EntrepriseServicePersonne
+:EntrepriseServicePersonne rdf:type owl:Class ;
+                           owl:equivalentClass [ owl:intersectionOf ( :Entreprise
+                                                                      [ rdf:type owl:Restriction ;
+                                                                        owl:onProperty :aSecteurActivité ;
+                                                                        owl:someValuesFrom :ServicesALaPersonne
+                                                                      ]
+                                                                    ) ;
+                                                 rdf:type owl:Class
+                                               ] ;
+                           rdfs:subClassOf :Entreprise .
+
+
+###  http://www.semanticweb.org/sami-/ontologies/2023/4/untitled-ontology-19/EntrepriseVetement
+:EntrepriseVetement rdf:type owl:Class ;
+                    owl:equivalentClass [ owl:intersectionOf ( :Entreprise
+                                                               [ rdf:type owl:Restriction ;
+                                                                 owl:onProperty :aSecteurActivité ;
+                                                                 owl:someValuesFrom :Vitement_Maroquienerie
+                                                               ]
+                                                             ) ;
+                                          rdf:type owl:Class
+                                        ] ;
+                    rdfs:subClassOf :Entreprise .
+
+
+###  http://www.semanticweb.org/sami-/ontologies/2023/4/untitled-ontology-19/Entreprise_Hytech
+:Entreprise_Hytech rdf:type owl:Class ;
+                   owl:equivalentClass [ owl:intersectionOf ( :Entreprise
+                                                              [ rdf:type owl:Restriction ;
+                                                                owl:onProperty [ owl:inverseOf :travailleDans
+                                                                               ] ;
+                                                                owl:allValuesFrom [ rdf:type owl:Class ;
+                                                                                    owl:unionOf ( :Ingénieur
+                                                                                                  [ rdf:type owl:Restriction ;
+                                                                                                    owl:onProperty :aDiplome ;
+                                                                                                    owl:someValuesFrom :MasterScientifique
+                                                                                                  ]
+                                                                                                )
+                                                                                  ]
+                                                              ]
+                                                            ) ;
+                                         rdf:type owl:Class
+                                       ] ;
+                   rdfs:subClassOf :Entreprise .
+
+
+###  http://www.semanticweb.org/sami-/ontologies/2023/4/untitled-ontology-19/Informatique
+:Informatique rdf:type owl:Class ;
+              rdfs:subClassOf :SecteurActivité .
+
+
+###  http://www.semanticweb.org/sami-/ontologies/2023/4/untitled-ontology-19/Ingénieur
+:Ingénieur rdf:type owl:Class ;
+           rdfs:subClassOf :Personne ,
+                           [ rdf:type owl:Restriction ;
+                             owl:onProperty :aDiplome ;
+                             owl:someValuesFrom :DiplômeIngénieur
+                           ] .
+
+
+###  http://www.semanticweb.org/sami-/ontologies/2023/4/untitled-ontology-19/JeuneEmployé
+:JeuneEmployé rdf:type owl:Class ;
+              rdfs:subClassOf :Employé ,
+                              [ rdf:type owl:Restriction ;
+                                owl:onProperty :age ;
+                                owl:someValuesFrom [ rdf:type rdfs:Datatype ;
+                                                     owl:onDatatype xsd:integer ;
+                                                     owl:withRestrictions ( [ xsd:maxInclusive 28
+                                                                            ]
+                                                                          )
+                                                   ]
+                              ] .
+
+
+###  http://www.semanticweb.org/sami-/ontologies/2023/4/untitled-ontology-19/Localité
+:Localité rdf:type owl:Class .
+
+
+###  http://www.semanticweb.org/sami-/ontologies/2023/4/untitled-ontology-19/MasterGestion
+:MasterGestion rdf:type owl:Class ;
+               rdfs:subClassOf :DiplômeNiveauSupérieur .
+
+
+###  http://www.semanticweb.org/sami-/ontologies/2023/4/untitled-ontology-19/MasterScientifique
+:MasterScientifique rdf:type owl:Class ;
+                    rdfs:subClassOf :DiplômeNiveauSupérieur .
+
+
+###  http://www.semanticweb.org/sami-/ontologies/2023/4/untitled-ontology-19/Meubles
+:Meubles rdf:type owl:Class ;
+         rdfs:subClassOf :SecteurActivité .
+
+
+###  http://www.semanticweb.org/sami-/ontologies/2023/4/untitled-ontology-19/Personne
+:Personne rdf:type owl:Class .
+
+
+###  http://www.semanticweb.org/sami-/ontologies/2023/4/untitled-ontology-19/Secrétaire
+:Secrétaire rdf:type owl:Class ;
+            rdfs:subClassOf :Employé .
+
+
+###  http://www.semanticweb.org/sami-/ontologies/2023/4/untitled-ontology-19/SecteurActivité
+:SecteurActivité rdf:type owl:Class .
+
+
+###  http://www.semanticweb.org/sami-/ontologies/2023/4/untitled-ontology-19/ServicesALaPersonne
+:ServicesALaPersonne rdf:type owl:Class ;
+                     rdfs:subClassOf :SecteurActivité .
+
+
+###  http://www.semanticweb.org/sami-/ontologies/2023/4/untitled-ontology-19/TechnicienInformatique
+:TechnicienInformatique rdf:type owl:Class ;
+                        rdfs:subClassOf :Employé .
+
+
+###  http://www.semanticweb.org/sami-/ontologies/2023/4/untitled-ontology-19/Vitement_Maroquienerie
+:Vitement_Maroquienerie rdf:type owl:Class ;
+                        rdfs:subClassOf :SecteurActivité .
+
+
+#################################################################
+#    Individuals
+#################################################################
+
+###  http://www.semanticweb.org/sami-/ontologies/2023/4/untitled-ontology-19#canapé_&_fauteuil
+<http://www.semanticweb.org/sami-/ontologies/2023/4/untitled-ontology-19#canapé_&_fauteuil> rdf:type owl:NamedIndividual ,
+                                                                                                     :Meubles .
+
+
+###  http://www.semanticweb.org/sami-/ontologies/2023/4/untitled-ontology-19/Aix
+:Aix rdf:type owl:NamedIndividual ,
+              :Localité .
+
+
+###  http://www.semanticweb.org/sami-/ontologies/2023/4/untitled-ontology-19/Anne
+:Anne rdf:type owl:NamedIndividual ,
+               :Personne ;
+      :dirige :Goût_de_Provence ;
+      :aDiplome :DiplomeAnne ;
+      :aSalaire "5300.0"^^xsd:float .
+
+
+###  http://www.semanticweb.org/sami-/ontologies/2023/4/untitled-ontology-19/BiotehcnoSAS
+:BiotehcnoSAS rdf:type owl:NamedIndividual ,
+                       :Entreprise_Hytech .
+
+
+###  http://www.semanticweb.org/sami-/ontologies/2023/4/untitled-ontology-19/Cecilia
+:Cecilia rdf:type owl:NamedIndividual ,
+                  :Secrétaire ;
+         :travailleDans :HelpBabysitting ;
+         :aSalaire "1800.0"^^xsd:float ;
+         :age 36 .
+
+
+###  http://www.semanticweb.org/sami-/ontologies/2023/4/untitled-ontology-19/ChampionWear
+:ChampionWear rdf:type owl:NamedIndividual ,
+                       :EntrepriseVetement ;
+              :aSecteurActivité :vétement_sport ;
+              :estSituéeDans :Toulon .
+
+
+###  http://www.semanticweb.org/sami-/ontologies/2023/4/untitled-ontology-19/DiplomeAnne
+:DiplomeAnne rdf:type owl:NamedIndividual ,
+                      :MasterGestion .
+
+
+###  http://www.semanticweb.org/sami-/ontologies/2023/4/untitled-ontology-19/DiplomeLydia
+:DiplomeLydia rdf:type owl:NamedIndividual ,
+                       :MasterScientifique .
+
+
+###  http://www.semanticweb.org/sami-/ontologies/2023/4/untitled-ontology-19/Djamal
+:Djamal rdf:type owl:NamedIndividual ,
+                 :Employé ;
+        :travailleDans :BiotehcnoSAS .
+
+
+###  http://www.semanticweb.org/sami-/ontologies/2023/4/untitled-ontology-19/Gabriel
+:Gabriel rdf:type owl:NamedIndividual ,
+                  :Employé ;
+         :travailleDans :New_Web_2000 .
+
+
+###  http://www.semanticweb.org/sami-/ontologies/2023/4/untitled-ontology-19/Goût_de_Provence
+:Goût_de_Provence rdf:type owl:NamedIndividual ,
+                           :EntrepriseAlimentaire ;
+                  :aSecteurActivité :conserve ;
+                  :dirigéePar :Anne ;
+                  :estSituéeDans :Marseille .
+
+
+###  http://www.semanticweb.org/sami-/ontologies/2023/4/untitled-ontology-19/HelpBabysitting
+:HelpBabysitting rdf:type owl:NamedIndividual ,
+                          :EntrepriseServicePersonne ;
+                 :aSecteurActivité :gardeEnfant ;
+                 :estSituéeDans :Aix .
+
+
+###  http://www.semanticweb.org/sami-/ontologies/2023/4/untitled-ontology-19/Home_Service_SAS
+:Home_Service_SAS rdf:type owl:NamedIndividual ,
+                           :EntrepriseServicePersonne ;
+                  :aSecteurActivité :aideMénager ;
+                  :dirigéePar :Sophie ;
+                  :estSituéeDans :Marseille ,
+                                 :Toulon .
+
+
+###  http://www.semanticweb.org/sami-/ontologies/2023/4/untitled-ontology-19/John
+:John rdf:type owl:NamedIndividual ,
+               :Ingénieur ,
+               :JeuneEmployé ;
+      :age 28 .
+
+
+###  http://www.semanticweb.org/sami-/ontologies/2023/4/untitled-ontology-19/Lydia
+:Lydia rdf:type owl:NamedIndividual ,
+                :DirecteurGénéral ;
+       :dirige :New_Web_2000 ;
+       :aDiplome :DiplomeLydia .
+
+
+###  http://www.semanticweb.org/sami-/ontologies/2023/4/untitled-ontology-19/Marseille
+:Marseille rdf:type owl:NamedIndividual ,
+                    :Localité .
+
+
+###  http://www.semanticweb.org/sami-/ontologies/2023/4/untitled-ontology-19/Mustapha
+:Mustapha rdf:type owl:NamedIndividual ,
+                   :Employé ;
+          :travailleDans :New_Web_2000 .
+
+
+###  http://www.semanticweb.org/sami-/ontologies/2023/4/untitled-ontology-19/New_Web_2000
+:New_Web_2000 rdf:type owl:NamedIndividual ,
+                       :EntrepriseInformatique ;
+              :aSecteurActivité :WebDesign ;
+              :dirigéePar :Lydia ;
+              :estSituéeDans :Marseille .
+
+
+###  http://www.semanticweb.org/sami-/ontologies/2023/4/untitled-ontology-19/Quatre_Pieds
+:Quatre_Pieds rdf:type owl:NamedIndividual ,
+                       :EntrepriseMeuble ;
+              :estSituéeDans :Vitrolles .
+
+
+###  http://www.semanticweb.org/sami-/ontologies/2023/4/untitled-ontology-19/Rudy
+:Rudy rdf:type owl:NamedIndividual ,
+               :Employé ;
+      :travailleDans :BiotehcnoSAS ;
+      :age 26 .
+
+
+###  http://www.semanticweb.org/sami-/ontologies/2023/4/untitled-ontology-19/Sarah
+:Sarah rdf:type owl:NamedIndividual ,
+                :Cadre ;
+       :travailleDans :Quatre_Pieds .
+
+
+###  http://www.semanticweb.org/sami-/ontologies/2023/4/untitled-ontology-19/SoInGe
+:SoInGe rdf:type owl:NamedIndividual ,
+                 :EntrepriseInformatique ;
+        :aSecteurActivité :logiciels_de_gestion ;
+        :estSituéeDans :Vitrolles .
+
+
+###  http://www.semanticweb.org/sami-/ontologies/2023/4/untitled-ontology-19/Sophie
+:Sophie rdf:type owl:NamedIndividual ,
+                 :DirecteurGénéral ;
+        :dirige :Home_Service_SAS ;
+        :travailleDans :Home_Service_SAS .
+
+
+###  http://www.semanticweb.org/sami-/ontologies/2023/4/untitled-ontology-19/Tiago
+:Tiago rdf:type owl:NamedIndividual ,
+                :Comptable ;
+       :travailleDans :ChampionWear ,
+                      :Quatre_Pieds ;
+       :aSalaire "2000.0"^^xsd:float .
+
+
+###  http://www.semanticweb.org/sami-/ontologies/2023/4/untitled-ontology-19/Toulon
+:Toulon rdf:type owl:NamedIndividual ,
+                 :Localité .
+
+
+###  http://www.semanticweb.org/sami-/ontologies/2023/4/untitled-ontology-19/Vitrolles
+:Vitrolles rdf:type owl:NamedIndividual ,
+                    :Localité .
+
+
+###  http://www.semanticweb.org/sami-/ontologies/2023/4/untitled-ontology-19/WebDesign
+:WebDesign rdf:type owl:NamedIndividual ,
+                    :Informatique .
+
+
+###  http://www.semanticweb.org/sami-/ontologies/2023/4/untitled-ontology-19/aideMénager
+:aideMénager rdf:type owl:NamedIndividual ,
+                      :ServicesALaPersonne .
+
+
+###  http://www.semanticweb.org/sami-/ontologies/2023/4/untitled-ontology-19/chaussures
+:chaussures rdf:type owl:NamedIndividual ,
+                     :Vitement_Maroquienerie .
+
+
+###  http://www.semanticweb.org/sami-/ontologies/2023/4/untitled-ontology-19/conserve
+:conserve rdf:type owl:NamedIndividual ,
+                   :Alimentaire .
+
+
+###  http://www.semanticweb.org/sami-/ontologies/2023/4/untitled-ontology-19/e-commerce
+:e-commerce rdf:type owl:NamedIndividual ,
+                     :Informatique .
+
+
+###  http://www.semanticweb.org/sami-/ontologies/2023/4/untitled-ontology-19/gardeEnfant
+:gardeEnfant rdf:type owl:NamedIndividual ,
+                      :ServicesALaPersonne .
+
+
+###  http://www.semanticweb.org/sami-/ontologies/2023/4/untitled-ontology-19/jardinage
+:jardinage rdf:type owl:NamedIndividual ,
+                    :ServicesALaPersonne .
+
+
+###  http://www.semanticweb.org/sami-/ontologies/2023/4/untitled-ontology-19/literie
+:literie rdf:type owl:NamedIndividual ,
+                  :Meubles .
+
+
+###  http://www.semanticweb.org/sami-/ontologies/2023/4/untitled-ontology-19/logiciels_de_gestion
+:logiciels_de_gestion rdf:type owl:NamedIndividual ,
+                               :Informatique .
+
+
+###  http://www.semanticweb.org/sami-/ontologies/2023/4/untitled-ontology-19/meubles_de_bureau
+:meubles_de_bureau rdf:type owl:NamedIndividual ,
+                            :Meubles .
+
+
+###  http://www.semanticweb.org/sami-/ontologies/2023/4/untitled-ontology-19/produits_laitiers
+:produits_laitiers rdf:type owl:NamedIndividual ,
+                            :Alimentaire .
+
+
+###  http://www.semanticweb.org/sami-/ontologies/2023/4/untitled-ontology-19/vétement_sport
+:vétement_sport rdf:type owl:NamedIndividual ,
+                         :Vitement_Maroquienerie .
+
+
+###  Generated by the OWL API (version 4.5.25.2023-02-15T19:15:49Z) https://github.com/owlcs/owlapi

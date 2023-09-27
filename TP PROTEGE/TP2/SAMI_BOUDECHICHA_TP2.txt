@@ -1,0 +1,55 @@
+---SAMI BOUDECHICHA I2D---
+- Queries et questions sur TBOX :
+
+-1- La liste des superclasses de VILLA est : 
+	-Building
+	-ClosedSpace
+	-DetachedHouse
+	-PrestigiousHouse
+
+-2- Non il ne peut pas exister une villa qui est a la fois un appartement, pour exprimé cette question il faut ecrire dans le DL query 
+Villa and Apartment et on coche dans le "Query for" : "Equivalent classes", et dans le Query results on aura owl:Nothing ce qui signifie 
+que il ne peut pas exister une villa qui est a la fois un appartement.
+
+-3- Non un studio avec 3 chambres n'existe pas. Pour exprimer cette question il faut ecrire dans le DL query "Studio and hasPart exactly 3 Bedroom" et on coche dans le dans le "Query for" : "Equivalent classes", et dans le Query results on aura owl:Nothing pour les classes equivalentes et 0 instances.
+
+-4- Oui Toute habitation a au moins deux pièces. et pour vérifier cela j'ai tapé "House and hasPart min 2 Room" dans le DL query et  
+j'ai coché "Equivalent classes" et "House" apparait bien dans les "Equivalent classes".
+
+-5- Non toute habitation n'as pas au moins trois piéces, et pour vérifier cela j'ai tapé "House and hasPart min 3 Room" dans le DL query et "House" n'apparait pas dans les "Equivalent classes".
+
+
+-Queries et questions sur ABOX :
+--- Instance Checking --- :
+-1- En tapant 'VillaAtSeaside' dans le DL Query l'instance que j'ai eu est : habitation515
+-2- En tapant 'BigHouse' dans le DL Query je n'ai eu aucune instance donc il ne ya pas de "BigHouse"
+-3- En tapant 'PrestigiousHouse' dans le DL Query, les instances resultats que j'ai eu sont : habitation374 et habitation515.
+
+-Reasoning: Unique Name Assumption (UNA) et Cohérence
+
+- En rendant tous les individus différents et en tapant la requéte "BigHouse" le résultat obtenue est : habitation192, car en rendant les individus différents le raisoneur sait maintenant que "chambre01", "chambre02", "piece03" et "piece04" sont tous des "room" différentes et que maintenant "habitation192" répond aux critéres de "BigHouse".
+
+- En ajoutant a l'ABOX les faits suivants : 
+hasPart(habitation919, chambre05)
+hasPart(habitation919, chambre08)
+et en Synchronisant le reasoner on a un message d'erreur qui dit :
+Bedroom SubClassOf Room 
+chambre05 Type Bedroom
+Studio EquivalentTo Apartment and (hasPart exactly 1 Bathroom) and (hasPart exactly 1(Room and( not (Bathroom))))
+habitation919 hasPart chambre08
+DifferentIndividuals : Aubagne, Cassis, G1, chambre01, chambr02, chambr05, chambr08, garden374, habitation192, habitation 374, habitation473, habitation515, habitation638, habitation919, piece03, piece04, terrace374
+habitation919 hasPart chalbre05
+habitation919 Type Studio
+Bathroom DisjointWith Bedroom
+chambre08 Type Bedroom
+
+Ici le reasoneur nous dis que il y'a erreur car : on a déclarer "chambre05" et "chambre08" etant tous les deux de type "Bedroom" et que "habitation919" est de type "Studio" et que un studio par définition c'est "Apartment and (hasPart exactly 1 Bathroom) and (hasPart exactly 1(Room and( not (Bathroom))))" c'est a dire qu'il a exactement une "Bathroom" et une "room" qui n'est pas "Bathroom". et nous on a declarer que habitation919 avait la "chambre05" et la "chambre08" qui sont tous les deux des Bedroom et on a aussi défini que Bedroom et Bathroom etait disjoints, donc on a essayer d'assigner a un studio deux Bedroom chose qui est contraire a la définition d'un studio.
+
+et pour résoudre cette incohérence faut donc supprimer une des deux assertions "hasPart(habitation919, chambre05)" ou "hasPart(habitation919, chambre08)"
+
+- Utiliser les Data Properties -
+-en tapant "AffordableHouse" j'ai eu 3 résultats : "habitation192", "habitation374", "habitation919" car je leur est assigné un prix supérieur a 200000.
+-en tapant "House and hasCost some xsd:long[> 300000]" j'ai eu : "habitation515".
+-en tapant "House and hasCost some xsd:long[< 300000]" j'ai eu : "habitation919", "habitation638", "habitation374", "habitation192".
+
+-En ajoutant les assertions "ExpensiveHouse" et "VeryConvenientHouse" a l'habitation333, le "reasoner" nous signale une erreur car le prix  d'une "ExpensiveHouse" doit etre supérieur a 900000 et une "VeryConvenientHouse" doit etre une AffordableHouse donc elle doit avoir un prix inférieur a 200000 et la donc on a une contradiction supérieur a 900000 et inférieur a 200000 est quelque chose d'impossible. J'ai donc enlevé donc le type "ExpensiveHouse" a l'habitation333 pour eviter d'avoir l'erreur.

@@ -1,0 +1,46 @@
+--- SAMI BOUDECHICHA TP3 ---
+- Oui il est possible que "Home Service SAS" soit basé a Marseille et a Toulon car il ne y'a pas aucune réstriction qui empêche cela.
+
+-TESTE DE L'ONTHOLOGIE :
+Je métterai ici les requétes dans le DL QUERY et leur résultats : 
+
+1- trouver les Directeurs Généraux:
+	'DirecteurGénéral' : Lydia - Sophie
+
+2- trouver les employés qui dirigent quelque entreprise : 
+	'Employé and (dirige some Entreprise)' : Anne - Lydia - Sophie
+
+3- trouver les Cadres :
+	'Cadre' : Anne - Lydia - Sarah - Sophie
+
+4-trouver les entreprises qui emploient des jeunes employés :
+	'Entreprise and (inverse(travailleDans) some JeuneEmployé)' : Pas de résultat 
+
+5- trouver les personnes qui ont un diplôme supérieur : 
+	'Personne and (aDiplome some DiplômeNiveauSupérieur)' : Anne - Djamal - John - Lydia -Rudy - Sarah - Sophie
+
+6- trouver les entreprises informatiques:s
+	'EntrepriseInformatique': New_Web_2000 - SoInGe
+
+7- trouver les personnes qui travaillent pour une entreprise informatique:
+	'Personne and (travailleDans some EntrepriseInformatique)' : Gabriel - Mustapha
+
+8- trouver dans quelle entreprise travaille Tiago:
+	'inverse(travailleDans) value Tiago' : ChampionWear
+
+9- trouver les entreprises à Marseille:
+	'Entreprise and (estSituéeDans value Marseille)' : Goût_de_Provence - Home_Service_SAS - New_Web_2000
+
+10- trouver les employés qui travaillent pour une entreprise à Marseille:
+	'Employé and (travailleDans some (Entreprise and (estSituéeDans value Marseille)))' : Gabriel - Mustapha - Sophie
+
+11- trouver les employés qui gagnent moins de 2500 euros:
+
+	'Employé and (aSalaire some xsd:float[< 2500])' : Cecilia - Tiago
+
+-TESTE DE COHERENCE : 
+ - En ajoutant que Tiago travaille aussi pour Quatre Pieds il ne y'as pas eu de probléme d'incohérence car il n'y a aucune contrainte déclarer qui interdit de travailler dans deux entreprise.
+
+- Il n'est pas possible d'ajouter un salaire de 2500 pour sarah car c'est un cadre et par définition un cadre doit toucher plus de 3500.
+
+- On peut créer un Object properties "Pas de diplome" mais on ne peut pas l'ajouter a Djamal car il travaille chez BiotehcnoSAS qui est une Entreprise_Hytech et tous les employée de ce genre d'entreprises doivent soit etre ingénieur soit avoir un diplome.
